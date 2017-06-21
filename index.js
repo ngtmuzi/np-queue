@@ -79,16 +79,16 @@ class Queue {
    * 用该队列包裹一个函数，返回一个“仅运行指定并发数的函数”
    * @param {Function} fn
    * @param {Object} thisArg  fn的运行上下文，选填
-   * @returns {Function} warpFn
+   * @returns {Function} wrapFn
    */
-  warp(fn, thisArg) {
+  wrap(fn, thisArg) {
     const self   = this;
-    const warpFn = function () {
+    const wrapFn = function () {
       return self.add(fn.bind(thisArg, ...arguments));
     };
-    warpFn.queue = this;
+    wrapFn.queue = this;
 
-    return warpFn;
+    return wrapFn;
   }
 }
 

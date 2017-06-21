@@ -25,11 +25,11 @@ describe('queue run by order of add', function () {
   });
 
   it('use wrap() method', function () {
-    const warpFn = q.warp(delay);
+    const wrapFn = q.wrap(delay);
     return Promise.all([
-      warpFn(4),
-      warpFn(5),
-      warpFn(6)
+      wrapFn(4),
+      wrapFn(5),
+      wrapFn(6)
     ])
       .should.eventually.deep.equal([4, 5, 6]);
   });
@@ -64,7 +64,7 @@ describe('queue run by concurrency', function () {
 
   it('use wrap() method, concurrency = 3', function () {
     const q         = new Queue({concurrency: 3});
-    const wrapFn    = q.warp(delay);
+    const wrapFn    = q.wrap(delay);
     const startTime = new Date();
 
     return Promise.all([
@@ -117,7 +117,7 @@ describe('pause & resume', function () {
 
     return Promise.all([
       q.add(delay).then(() => new Date() - startTime),
-      q.add(()=>{}).then(() => {
+      q.add(() => {}).then(() => {
         q.pause();
         setTimeout(() => q.resume(), 1000);
         return new Date() - startTime;
@@ -126,7 +126,7 @@ describe('pause & resume', function () {
       q.add(delay).then(() => new Date() - startTime)
     ])
       .then(function (times) {
-        const expectTimes = [1000,0, 1000, 1200];
+        const expectTimes = [1000, 0, 1000, 1200];
         times.forEach(function (useTime, index) {
           assert.closeTo(useTime, expectTimes[index], 10, 'useTime are close');
         })
