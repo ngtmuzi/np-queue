@@ -1,0 +1,10 @@
+language: node_js
+os:
+- linux
+node_js:
+- 6
+install:
+- npm i mocha -g
+- npm i --dev
+script:
+- npm test
