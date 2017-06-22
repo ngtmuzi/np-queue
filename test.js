@@ -133,4 +133,53 @@ describe('pause & resume', function () {
       });
   });
 
+
+  it('pause twice and resume twice queue also correctly run', function () {
+    const q         = new Queue({concurrency: 2});
+    const startTime = new Date();
+
+    return Promise.all([
+      q.add(delay).then(() => new Date() - startTime),
+      q.add(() => {}).then(() => {
+        q.pause();
+        q.pause();
+        setTimeout(() => {
+          q.resume();
+          q.resume();
+        }, 1000);
+        return new Date() - startTime;
+      }),
+      q.add(() => {}).then(() => new Date() - startTime),
+      q.add(delay).then(() => new Date() - startTime)
+    ])
+      .then(function (times) {
+        const expectTimes = [1000, 0, 1000, 1200];
+        times.forEach(function (useTime, index) {
+          assert.closeTo(useTime, expectTimes[index], 10, 'useTime are close');
+        })
+      });
+  });
+
+
+  it('no pause but call resume() will do nothing', function () {
+    const q         = new Queue({concurrency: 2});
+    const startTime = new Date();
+
+    return Promise.all([
+      q.add(delay).then(() => new Date() - startTime),
+      q.add(() => {}).then(() => {
+        q.resume();
+        return new Date() - startTime;
+      }),
+      q.add(delay).then(() => new Date() - startTime),
+      q.add(delay).then(() => new Date() - startTime)
+    ])
+      .then(function (times) {
+        const expectTimes = [200, 0, 200, 400];
+        times.forEach(function (useTime, index) {
+          assert.closeTo(useTime, expectTimes[index], 10, 'useTime are close');
+        })
+      });
+  });
+
 });
