@@ -33,18 +33,21 @@ You will see it output 1,2,3,4 interval by 1 seconds.
 
 ### new Queue({promiseLibrary,concurrency})
 
-#### promiseLibrary
+#### `promiseLibrary`
 You can choose the queue's Promise library, default is `global.Promise`.
 
-#### concurrency
+#### `concurrency`
 Limit how much Promise task can concurrency run, default is 1.
 
-### queue.add(fn)
+### queue.add(fn,\[key\])
 
-#### fn
+#### `fn`
 The async function you define, it return a `Promise` or anything, note it will not receive any arguments so you must wrap your arguments in its code.
 
-### queue.wrap(fn, thisArg)
+#### `key`
+The task key you define, can use any type except `undefined`, if you give one key that already exist in queue, `add()` will return a rejection `Promise`. 
+
+### queue.wrap(fn, \[thisArg\])
 
 It will be return a function that wrap the `fn`, use the queue's concurrency to limit how much `fn` can be execute on same time.
  

@@ -15,6 +15,7 @@ class Queue {
   constructor({promiseLibrary, concurrency} = {}) {
     this.concurrency = isNaN(+concurrency) ? 1 : +concurrency;
     this.queue       = [];
+    this.keySet      = new Set();
     this.runCount    = 0;
     this.Promise     = promiseLibrary || Promise;
     this._wait       = this.Promise.resolve();
@@ -23,14 +24,23 @@ class Queue {
   /**
    * 添加一个待执行函数到队列
    * @param {Function} fn 通常来说返回一个Promise
+   * @param {*}       key 用于区别其他任务的key
    * @returns {Promise} 返回fn执行完成后的Promise
    */
-  add(fn) {
+  add(fn, key) {
     return new this.Promise((resolve, reject) => {
+      if (key !== undefined && this.keySet.has(key)) return reject(new Error('already has task with same key'));
+      if (key !== undefined) this.keySet.add(key);
+
       this.queue.push(() =>
         this._wait
           .then(fn)
-          .then(value => this._wait.then(() => value))
+          .then(value =>
+            this._wait.then(() => {
+              if (key !== undefined) this.keySet.delete(key);
+              return value;
+            })
+          )
           .then(resolve, reject)
       );
       this._consume();

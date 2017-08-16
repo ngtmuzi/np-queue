@@ -16,12 +16,24 @@ describe('queue run by order of add', function () {
   const q = new Queue();
 
   it('use add() method', function () {
-    Promise.all([
+    return Promise.all([
       q.add(() => delay(1)),
       q.add(() => delay(2)),
       q.add(() => delay(3))
     ])
       .should.eventually.deep.equal([1, 2, 3]);
+  });
+
+  it('use add() method and take key', function () {
+    return Promise.all([
+      q.add(() => delay(1), 'key_a'),
+      q.add(() => delay(2), 'key_a').catch(err => err.message),
+      q.add(() => delay(3), 'key_b'),
+      q.add(() => delay(4), 'key_b').catch(err => err.message),
+      q.add(() => delay(5), 'key_c'),
+      q.add(() => delay(6), 'key_d')
+    ])
+      .should.eventually.deep.equal([1, 'already has task with same key', 3, 'already has task with same key', 5, 6]);
   });
 
   it('use wrap() method', function () {

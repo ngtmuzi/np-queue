@@ -1,6 +1,6 @@
 {
   "name": "np-queue",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A queue to control Promise task's concurrency and pause/resume.",
   "main": "index.js",
   "scripts": {
