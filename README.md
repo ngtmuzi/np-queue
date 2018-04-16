@@ -2,6 +2,7 @@
 [![Build Status](https://www.travis-ci.org/ngtmuzi/np-queue.svg?branch=master)](https://www.travis-ci.org/ngtmuzi/np-queue)
 [![Coverage Status](https://coveralls.io/repos/github/ngtmuzi/np-queue/badge.svg?branch=master)](https://coveralls.io/github/ngtmuzi/np-queue?branch=master)
 
+**[中文文档](https://github.com/ngtmuzi/np-queue/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3)**  
 A queue to control Promise task's concurrency and pause/resume.
 
 ## Install
