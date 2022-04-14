@@ -5,7 +5,7 @@ const assert         = chai.assert;
 chai.use(chaiAsPromised);
 chai.should();
 
-const Queue = require('./index');
+const Queue = require('../built/index');
 
 const delay = (value, ms = 200) =>
   new Promise(resolve => {
