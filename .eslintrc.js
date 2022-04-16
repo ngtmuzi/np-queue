@@ -1,5 +1,5 @@
 module.exports = {
-  ignorePatterns: ['built/*', '.eslintrc.js', 'config/*', 'tsconfig.*.json', 'test/*'],
+  ignorePatterns: ['lib/*', '.eslintrc.js', 'jest.config.js', 'tsconfig.*.json', 'test/*'],
   env: {
     es6: true,
     node: true,
@@ -16,7 +16,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2015,
     sourceType: 'module',
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],

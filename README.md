@@ -30,25 +30,24 @@ delay_wrap(4).then(console.log);
 ```
 You will see it output 1,2,3,4 interval by 1 seconds.
 
+**NOTE: if in `async` function, you should not use `await` keyword, otherwise it will be running by "serial" because `add()` return a promise.**
+
 ## API
 
-### new Queue({promiseLibrary,concurrency})
-
-#### `promiseLibrary`
-You can choose the queue's Promise library, default is `global.Promise`.
+### `new Queue({concurrency})`
 
 #### `concurrency`
 Limit how much Promise task can concurrency run, default is 1.
 
-### queue.add(fn,\[key\])
+### `queue.add(fn,\[key\])`
 
-#### `fn`
+#### fn
 The async function you define, it return a `Promise` or anything, note it will not receive any arguments so you must wrap your arguments in its code.
 
-#### `key`
+#### key
 The task key you define, can use any type except `undefined`, if you give one key that already exist in queue, `add()` will return a rejection `Promise`. 
 
-### queue.wrap(fn, \[thisArg\])
+### `queue.wrap(fn, \[thisArg\])`
 
 It will be return a function that wrap the `fn`, use the queue's concurrency to limit how much `fn` can be execute on same time.
  
@@ -60,11 +59,19 @@ const serial_fn = new Queue().wrap(fn);
 
 On many time it's useful.
 
-### queue.pause & queue.resume
+### `queue.pause()` & `queue.resume()`
 
 Pause/resume this queue, no more word.
 
+### `queue.all()`
+
+like `Promise.all`, waiting all queue's tasks promise be done, notice it may not sort by running order.
+
+### `queue.concurrency`
+
+get/set queue's concurrency.
+
 ## Test
 ```
-mocha
+npm run test
 ```
