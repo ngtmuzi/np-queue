@@ -24,6 +24,9 @@
   "bugs": {
     "url": "https://github.com/ngtmuzi/np-queue/issues"
   },
+  "files": [
+    "lib/"
+  ],
   "homepage": "https://github.com/ngtmuzi/np-queue#readme",
   "devDependencies": {
     "@types/jest": "^27.4.1",
